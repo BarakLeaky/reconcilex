@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: reconcilex-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: reconcilex
+    ports:
+      - "5433:5432"
+    volumes:
+      - reconcilex_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d reconcilex"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  reconcilex_postgres_data:
